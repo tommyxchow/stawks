@@ -5,6 +5,13 @@ import StockChart from '../../components/StockChart';
 import TickerForm from '../../components/TickerForm';
 import { CompanyData, CompanyLogo, StockData } from '../../types/iex';
 
+type TickerProps = {
+  ticker: string;
+  logo: string;
+  companyData: CompanyData;
+  stockData: StockData[];
+};
+
 export default function Ticker({
   ticker,
   companyData,
@@ -77,13 +84,6 @@ export default function Ticker({
   );
 }
 
-type TickerProps = {
-  ticker: string;
-  logo: string;
-  companyData: CompanyData;
-  stockData: StockData[];
-};
-
 export const getStaticPaths: GetStaticPaths = () => {
   return { paths: [], fallback: true };
 };
@@ -108,5 +108,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       companyData,
       stockData,
     },
+    // Revalidate every minute to keep the stock data up to date.
+    revalidate: 60,
   };
 };
