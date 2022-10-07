@@ -9,7 +9,7 @@ export default function TickerForm() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const ticker = e.currentTarget.ticker.value;
-    router.push(`/ticker/${ticker}`);
+    router.push(`/stocks/${ticker}`);
   };
 
   return (
