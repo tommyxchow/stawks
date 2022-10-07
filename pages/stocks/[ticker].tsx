@@ -1,4 +1,5 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
+import Image from 'next/future/image';
 import { useRouter } from 'next/router';
 import Layout from '../../components/Layout';
 import StockChart from '../../components/StockChart';
@@ -7,13 +8,15 @@ import { CompanyData, CompanyLogo, StockData } from '../../types/iex';
 
 type TickerProps = {
   ticker: string;
-  logo: string;
+  logoURL: string;
   companyData: CompanyData;
   stockData: StockData[];
+  error: boolean;
 };
 
 export default function Ticker({
   ticker,
+  logoURL,
   companyData,
   stockData,
 }: TickerProps) {
@@ -32,9 +35,20 @@ export default function Ticker({
         <TickerForm />
 
         <section className='flex flex-col gap-4'>
-          <div>
+          <div className='flex items-center gap-2'>
+            <div className='h-8 w-8 relative'>
+              <Image
+                className='object-contain p-1 rounded-full bg-neutral-100'
+                src={logoURL}
+                alt='Logo'
+                fill
+                priority
+              />
+            </div>
+
             <h1 className='text-3xl font-bold'>{ticker}</h1>
-            <p className='text-neutral-400 text-xl'>
+
+            <p className='text-neutral-400 text-xl self-end'>
               {companyData.companyName}
             </p>
           </div>
@@ -48,35 +62,6 @@ export default function Ticker({
               <h2 className='text-2xl font-semibold mb-2'>About</h2>
               <p>{companyData.description}</p>
             </div>
-
-            <div className='flex gap-20'>
-              {companyData.sector && (
-                <div className='space-y-2'>
-                  <h3 className='uppercase tracking-wider font-medium text-sm'>
-                    Sector
-                  </h3>
-                  <p>{companyData.sector}</p>
-                </div>
-              )}
-
-              {companyData.CEO && (
-                <div className='space-y-2'>
-                  <h3 className='uppercase tracking-wider font-medium text-sm'>
-                    CEO
-                  </h3>
-                  <p>{companyData.CEO}</p>
-                </div>
-              )}
-
-              {companyData.employees && (
-                <div className='space-y-2'>
-                  <h3 className='uppercase tracking-wider font-medium text-sm'>
-                    Employees
-                  </h3>
-                  <p>{companyData.employees}+</p>
-                </div>
-              )}
-            </div>
           </section>
         </section>
       </div>
@@ -89,26 +74,33 @@ export const getStaticPaths: GetStaticPaths = () => {
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const companyData: CompanyData = await fetch(
-    `https://cloud.iexapis.com/stable/stock/${params?.ticker}/company?token=${process.env.IEX_TOKEN}`
-  ).then((res) => res.json());
+  try {
+    const companyData: CompanyData = await fetch(
+      `https://cloud.iexapis.com/stable/stock/${params?.ticker}/company?token=${process.env.IEX_TOKEN}`
+    ).then((res) => res.json());
 
-  const companyLogo: CompanyLogo = await fetch(
-    `https://cloud.iexapis.com/stable/stock/${params?.ticker}/logo?token=${process.env.IEX_TOKEN}`
-  ).then((res) => res.json());
+    const companyLogo: CompanyLogo = await fetch(
+      `https://cloud.iexapis.com/stable/stock/${params?.ticker}/logo?token=${process.env.IEX_TOKEN}`
+    ).then((res) => res.json());
 
-  const stockData: StockData[] = await fetch(
-    `https://cloud.iexapis.com/stable/stock/${params?.ticker}/chart/1d?token=${process.env.IEX_TOKEN}`
-  ).then((res) => res.json());
+    const stockData: StockData[] = await fetch(
+      `https://cloud.iexapis.com/stable/stock/${params?.ticker}/chart/1d?token=${process.env.IEX_TOKEN}`
+    ).then((res) => res.json());
 
-  return {
-    props: {
-      ticker: params?.ticker,
-      logo: companyLogo.url,
-      companyData,
-      stockData,
-    },
-    // Revalidate every minute to keep the stock data up to date.
-    revalidate: 60,
-  };
+    return {
+      props: {
+        ticker: params?.ticker,
+        logoURL: companyLogo.url,
+        companyData,
+        stockData,
+      },
+      // Revalidate every minute to keep the stock data up to date.
+      revalidate: 60,
+    };
+  } catch {
+    // If there's an error (e.g., the ticker doesn't exist), return the 404 page.
+    return {
+      notFound: true,
+    };
+  }
 };
