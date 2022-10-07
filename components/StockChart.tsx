@@ -11,7 +11,7 @@ import {
   Tooltip,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-import { StockData } from '../types/iex';
+import { PreviousDayPrice, StockData } from '../types/iex';
 
 ChartJS.register({
   CategoryScale,
@@ -24,12 +24,24 @@ ChartJS.register({
 
 type StockChartProps = {
   stockData: StockData[];
+  previousDayPrice: PreviousDayPrice;
 };
 
-export default function StockChart({ stockData }: StockChartProps) {
+export default function StockChart({
+  stockData,
+  previousDayPrice,
+}: StockChartProps) {
+  const currentPrice = stockData
+    .slice()
+    .reverse()
+    .find((data) => data.close)?.close;
+
+  const priceChange =
+    (currentPrice ?? previousDayPrice.close) - previousDayPrice.close;
+
   const labels = stockData.map((data) => data.label);
 
-  const options: ChartOptions = {
+  const options: ChartOptions<'line'> = {
     elements: {
       point: {
         radius: 0,
@@ -51,19 +63,30 @@ export default function StockChart({ stockData }: StockChartProps) {
     datasets: [
       {
         label: 'Price ($)',
-        data: stockData.map((data) => data.average),
+        data: stockData.map((data) => data.close),
         fill: true,
         backgroundColor: (context: ScriptableContext<'line'>) => {
           const ctx = context.chart.ctx;
-          const gradient = ctx.createLinearGradient(0, 0, 0, 300);
-          gradient.addColorStop(0, 'white');
-          gradient.addColorStop(1, 'black');
+          const gradient = ctx.createLinearGradient(
+            0,
+            0,
+            0,
+            context.chart.height
+          );
+
+          gradient.addColorStop(
+            0,
+            priceChange >= 0 ? 'rgb(0,255,0,0.5)' : 'rgb(255,0,0,0.5)'
+          );
+          gradient.addColorStop(1, 'transparent');
+
           return gradient;
         },
-        borderColor: 'rgb(255,255,255,0.5)',
+        borderColor: priceChange >= 0 ? 'green' : 'red',
         spanGaps: true,
-        borderWidth: 1,
+        borderWidth: 2,
         pointRadius: 0,
+        tension: 0.1,
       },
     ],
   };

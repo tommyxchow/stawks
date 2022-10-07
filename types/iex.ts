@@ -29,3 +29,9 @@ export type CompanyData = {
 export type CompanyLogo = {
   url: string;
 };
+
+export type PreviousDayPrice = {
+  close: number;
+  change: number;
+  changePercent: number;
+};

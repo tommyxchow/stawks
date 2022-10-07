@@ -4,7 +4,7 @@ import TickerForm from '../components/TickerForm';
 
 const Home: NextPage = () => {
   return (
-    <Layout title='Stawks' description='Stawks home.'>
+    <Layout title='STAWKS' description='STAWKS home.'>
       <div className='flex flex-col gap-8 justify-center min-h-screen py-8'>
         <div className='flex flex-col gap-2'>
           <h1 className='text-4xl font-bold uppercase tracking-wider'>
