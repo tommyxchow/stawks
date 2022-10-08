@@ -13,8 +13,8 @@ export default function TickerForm() {
   };
 
   return (
-    <form className='flex items-center gap-2' onSubmit={handleSubmit}>
-      <Input id='ticker' placeholder='Enter a ticker or name...' />
+    <form className='flex items-center gap-2 w-full' onSubmit={handleSubmit}>
+      <Input id='ticker' placeholder='Enter a ticker (e.g., AAPL)' />
 
       <Button>Go</Button>
     </form>

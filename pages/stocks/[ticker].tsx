@@ -10,6 +10,8 @@ import {
   PreviousDayPrice,
   StockData,
 } from '../../types/iex';
+import { HiHome } from 'react-icons/hi';
+import Link from 'next/link';
 
 type TickerProps = {
   ticker: string;
@@ -46,7 +48,18 @@ export default function Ticker({
       description={`Stock data for ${stockTicker}.`}
     >
       <div className='min-h-screen py-8 flex flex-col gap-16'>
-        <TickerForm />
+        <div className='flex items-center gap-2'>
+          <Link href='/'>
+            <a>
+              <HiHome
+                className='active:scale-90 hover:opacity-50 transition'
+                size={28}
+                title='Go home'
+              />
+            </a>
+          </Link>
+          <TickerForm />
+        </div>
 
         <section className='flex flex-col gap-4'>
           <div className='flex flex-col gap-2'>
@@ -92,12 +105,14 @@ export default function Ticker({
             />
           </div>
 
-          <section className='space-y-8'>
-            <div>
-              <h2 className='text-2xl font-semibold mb-2'>About</h2>
-              <p>{companyData.description}</p>
-            </div>
-          </section>
+          {companyData.description && (
+            <section className='space-y-8'>
+              <div>
+                <h2 className='text-2xl font-semibold mb-2'>About</h2>
+                <p>{companyData.description}</p>
+              </div>
+            </section>
+          )}
         </section>
       </div>
     </Layout>

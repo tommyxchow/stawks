@@ -4,7 +4,7 @@ export default function Input({ id, placeholder }: InputProps) {
   return (
     <input
       id={id}
-      className='px-4 py-2 rounded-full bg-neutral-800 w-full'
+      className='px-4 py-2 rounded-full bg-neutral-800 w-full shadow'
       placeholder={placeholder}
       required
     ></input>

@@ -16,7 +16,7 @@ const Home: NextPage = () => {
 
           <p className='text-neutral-400'>
             A lightweight web app for viewing any stock&apos;s price and
-            relevant metadata.
+            relevant details.
           </p>
         </div>
 
