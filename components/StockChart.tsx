@@ -11,7 +11,8 @@ import {
   Tooltip,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-import { PreviousDayPrice, StockData } from '../types/iex';
+import { getStockPriceChange } from '../lib/helper';
+import { StockChartData, StockQuote } from '../types/iex';
 
 ChartJS.register({
   CategoryScale,
@@ -23,25 +24,20 @@ ChartJS.register({
 });
 
 type StockChartProps = {
-  stockData: StockData[];
-  previousDayPrice: PreviousDayPrice;
+  stockChartData: StockChartData[];
+  stockQuote?: StockQuote;
 };
 
 export default function StockChart({
-  stockData,
-  previousDayPrice,
+  stockChartData,
+  stockQuote,
 }: StockChartProps) {
-  const currentPrice = stockData
-    .slice()
-    .reverse()
-    .find((data) => data.close)?.close;
+  const labels = stockChartData.map((data) => data.label);
 
-  const priceChange =
-    (currentPrice ?? previousDayPrice.close) - previousDayPrice.close;
-
-  const labels = stockData.map((data) => data.label);
+  const priceChange = stockQuote?.change ?? getStockPriceChange(stockChartData);
 
   const options: ChartOptions<'line'> = {
+    animation: false,
     elements: {
       point: {
         radius: 0,
@@ -63,7 +59,7 @@ export default function StockChart({
     datasets: [
       {
         label: 'Price ($)',
-        data: stockData.map((data) => data.close),
+        data: stockChartData.map((data) => data.close),
         fill: true,
         backgroundColor: (context: ScriptableContext<'line'>) => {
           const ctx = context.chart.ctx;

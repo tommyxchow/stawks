@@ -1,4 +1,4 @@
-export type StockData = {
+export type StockChartData = {
   date: string;
   minute: string;
   label: string;
@@ -10,6 +10,7 @@ export type StockData = {
   volume: number;
   notional: number;
   numberOfTrades: number;
+  changeOverTime: number;
 };
 
 export type CompanyData = {
@@ -30,8 +31,8 @@ export type CompanyLogo = {
   url: string;
 };
 
-export type PreviousDayPrice = {
-  close: number;
+export type StockQuote = {
+  latestPrice: number;
   change: number;
   changePercent: number;
 };
