@@ -5,7 +5,9 @@ type AboutProps = {
   companyData: CompanyData;
 };
 
-export default function About({ companyData }: AboutProps) {
+export default function AboutSection({ companyData }: AboutProps) {
+  if (!companyData.description) return <p>Company data missing :(</p>;
+
   const companyStats = [
     {
       title: 'CEO',
@@ -27,10 +29,7 @@ export default function About({ companyData }: AboutProps) {
 
   return (
     <div className='space-y-8'>
-      <div>
-        <h2 className='text-xl sm:text-2xl font-semibold mb-2'>About</h2>
-        <p>{companyData.description}</p>
-      </div>
+      <p>{companyData.description}</p>
 
       <div className='grid grid-cols-2 sm:grid-cols-4 gap-y-8'>
         {companyStats.map(

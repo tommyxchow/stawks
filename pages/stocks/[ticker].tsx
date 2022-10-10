@@ -5,14 +5,15 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { HiHome } from 'react-icons/hi';
 import { SWRConfig } from 'swr';
-import About from '../../components/About';
+import AboutSection from '../../components/AboutSection';
 import Layout from '../../components/Layout';
-import News from '../../components/News';
+import NewsSection from '../../components/NewsSection';
 import StockChartWithPrice from '../../components/StockChartWithPrice';
 import TickerForm from '../../components/TickerForm';
 import {
   CompanyData,
   CompanyLogo,
+  News,
   StockChartData,
   StockQuote,
 } from '../../types/iex';
@@ -21,6 +22,7 @@ type TickerProps = {
   ticker: string;
   logoURL: string;
   companyData: CompanyData;
+  news: News[];
   fallback: [key: string, value: any];
 };
 
@@ -29,8 +31,15 @@ export default function Ticker({
   logoURL,
   companyData,
   fallback,
+  news,
 }: TickerProps) {
   const router = useRouter();
+
+  const tabs = [
+    { title: 'About', component: <AboutSection companyData={companyData} /> },
+    { title: 'News', component: <NewsSection news={news} /> },
+  ];
+  const [selectedTabIndex, setSelectedTabIndex] = useState(0);
 
   if (router.isFallback) return <div>Loading...</div>;
 
@@ -57,11 +66,12 @@ export default function Ticker({
 
         <section className='flex flex-col gap-4'>
           <div className='flex items-center gap-2'>
-            <div className='h-6 w-6 sm:h-8 sm:w-8 relative'>
+            <div className='h-6 w-6 sm:h-8 sm:w-8 relative shrink-0'>
               <Image
                 className='object-contain p-1 rounded-full bg-neutral-100'
                 src={logoURL}
                 alt='Logo'
+                sizes='32px'
                 fill
                 priority
               />
@@ -79,11 +89,21 @@ export default function Ticker({
             <StockChartWithPrice ticker={ticker} />
           </SWRConfig>
 
-          {companyData.description && (
-            <section>
-              <About companyData={companyData} />
-            </section>
-          )}
+          <menu className='flex gap-2'>
+            {tabs.map((tab, index) => (
+              <button
+                key={tab.title}
+                className={`text-xl sm:text-2xl font-semibold mb-2 ${
+                  selectedTabIndex === index && 'underline underline-offset-4'
+                }`}
+                onClick={() => setSelectedTabIndex(index)}
+              >
+                {tab.title}
+              </button>
+            ))}
+          </menu>
+
+          {tabs[selectedTabIndex].component}
         </section>
       </div>
     </Layout>
@@ -112,11 +132,16 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       `https://cloud.iexapis.com/stable/stock/${params?.ticker}/quote?displayPercent=true&token=${process.env.IEX_TOKEN}`
     ).then((res) => res.json());
 
+    const news: News[] = await fetch(
+      `https://cloud.iexapis.com/stable/stock/${params?.ticker}/news/last/5?token=${process.env.IEX_TOKEN}`
+    ).then((res) => res.json());
+
     return {
       props: {
         ticker: params?.ticker,
         logoURL: companyLogo.url,
         companyData,
+        news,
         // Define fallback data for useSWR.
         // This will allow us to utilize both SSG and CSR.
         fallback: {
