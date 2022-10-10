@@ -2,9 +2,12 @@ import { GetStaticPaths, GetStaticProps } from 'next';
 import Image from 'next/future/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
 import { HiHome } from 'react-icons/hi';
+import { SWRConfig } from 'swr';
 import About from '../../components/About';
 import Layout from '../../components/Layout';
+import News from '../../components/News';
 import StockChartWithPrice from '../../components/StockChartWithPrice';
 import TickerForm from '../../components/TickerForm';
 import {
@@ -18,16 +21,14 @@ type TickerProps = {
   ticker: string;
   logoURL: string;
   companyData: CompanyData;
-  stockChartDataDay: StockChartData[];
-  stockQuote: StockQuote;
+  fallback: [key: string, value: any];
 };
 
 export default function Ticker({
   ticker,
   logoURL,
   companyData,
-  stockChartDataDay,
-  stockQuote,
+  fallback,
 }: TickerProps) {
   const router = useRouter();
 
@@ -74,11 +75,9 @@ export default function Ticker({
             </h1>
           </div>
 
-          <StockChartWithPrice
-            ticker={ticker}
-            stockQuote={stockQuote}
-            stockChartData={stockChartDataDay}
-          />
+          <SWRConfig value={{ fallback }}>
+            <StockChartWithPrice ticker={ticker} />
+          </SWRConfig>
 
           {companyData.description && (
             <section>
@@ -118,8 +117,12 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         ticker: params?.ticker,
         logoURL: companyLogo.url,
         companyData,
-        stockChartDataDay,
-        stockQuote,
+        // Define fallback data for useSWR.
+        // This will allow us to utilize both SSG and CSR.
+        fallback: {
+          [`/api/quote/${params?.ticker}`]: stockQuote,
+          [`/api/charts/${params?.ticker}/1d`]: stockChartDataDay,
+        },
       },
       // Revalidate every minute to keep the stock data up to date.
       revalidate: 60,

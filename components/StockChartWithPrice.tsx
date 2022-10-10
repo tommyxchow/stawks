@@ -4,77 +4,87 @@ import { getStockPriceChange } from '../lib/helper';
 import { StockChartData, StockQuote } from '../types/iex';
 import StockChart from './StockChart';
 
-const ranges = ['1D', '5D', '1M', '6M', 'YTD', '1Y', '5Y'];
+const ranges = ['1d', '5d', '1m', '6m', 'ytd', '1y', '5y'];
 
 type StockChartWithPriceProps = {
   ticker: string;
-  stockQuote: StockQuote;
-  stockChartData: StockChartData[];
 };
 
 export default function StockChartWithPrice({
   ticker,
-  stockQuote,
-  stockChartData,
 }: StockChartWithPriceProps) {
-  const [chartRangeIndex, setChartRangeIndex] = useState(0);
-  const [stockData, setStockData] = useState(stockChartData);
+  const { data: stockQuoteData } = useSWR(
+    `/api/quote/${ticker}`,
+    (): Promise<StockQuote> =>
+      fetch(`/api/quote/${ticker}`).then((res) => res.json())
+  );
+
+  const { data: initialStockChartData } = useSWR(
+    `/api/charts/${ticker}/1d`,
+    (): Promise<StockChartData[]> =>
+      fetch(`/api/charts/${ticker}/1d`).then((res) => res.json())
+  );
+
+  const [chartRange, setChartRange] = useState(ranges[0]);
+  const [stockData, setStockData] = useState(initialStockChartData);
 
   const priceChange =
-    chartRangeIndex == 0 ? stockQuote.change : getStockPriceChange(stockData);
+    chartRange === '1d'
+      ? stockQuoteData && stockQuoteData.change
+      : stockData && getStockPriceChange(stockData);
 
   const priceChangePercent =
-    chartRangeIndex == 0
-      ? stockQuote.changePercent
-      : stockData[stockData.length - 1].changeOverTime * 100;
+    chartRange === '1d'
+      ? stockQuoteData && stockQuoteData.changePercent
+      : stockData && stockData[stockData.length - 1].changeOverTime * 100;
 
   return (
     <div className='flex flex-col bg-black p-4 rounded-2xl mb-4 gap-4 shadow-xl'>
       <div className='flex flex-col sm:flex-row sm:justify-between sm:items-center'>
         <div className='flex gap-2 items-center'>
           <h2 className='text-xl sm:text-2xl font-semibold'>
-            ${stockQuote.latestPrice.toFixed(2)}{' '}
+            ${stockQuoteData?.latestPrice.toFixed(2)}
           </h2>
 
-          <p
-            className={`font-medium sm:text-lg bg-opacity-30 rounded-full px-2 ${
-              priceChange > 0
-                ? 'text-green-500 bg-green-700'
-                : 'text-red-500 bg-red-700'
-            }`}
-          >
-            {priceChange > 0 && '+'}
-            {priceChange.toFixed(2)} ({Math.abs(priceChangePercent).toFixed(2)}
-            %)
-          </p>
+          {priceChange && (
+            <p
+              className={`font-medium sm:text-lg bg-opacity-30 rounded-full px-2 ${
+                priceChange > 0
+                  ? 'text-green-500 bg-green-700'
+                  : 'text-red-500 bg-red-700'
+              }`}
+            >
+              {priceChange > 0 && '+'}
+              {priceChange.toFixed(2)} (
+              {priceChangePercent && Math.abs(priceChangePercent).toFixed(2)}
+              %)
+            </p>
+          )}
         </div>
 
         <menu className='flex gap-2 text-sm sm:text-base'>
-          {ranges.map((range, index) => (
+          {ranges.map((range) => (
             <li key={range}>
               <button
                 className={`transition font-medium ${
-                  chartRangeIndex != index &&
+                  chartRange !== range &&
                   'text-neutral-400 hover:text-neutral-100'
                 }`}
-                onClick={() => setChartRangeIndex(index)}
+                onClick={() => setChartRange(range)}
               >
-                {range}
+                {range.toUpperCase()}
               </button>
             </li>
           ))}
         </menu>
       </div>
 
-      {chartRangeIndex == 0 ? (
-        <StockChart stockChartData={stockChartData} stockQuote={stockQuote} />
-      ) : (
-        <FetchAndRenderChart
-          ticker={ticker}
-          range={ranges[chartRangeIndex]}
-          setStockData={setStockData}
-        />
-      )}
+      <FetchAndRenderChart
+        ticker={ticker}
+        range={chartRange}
+        setStockData={setStockData}
+        stockQuote={chartRange === '1d' ? stockQuoteData : undefined}
+      />
     </div>
   );
 }
@@ -83,16 +93,23 @@ function FetchAndRenderChart({
   ticker,
   range,
   setStockData,
+  stockQuote,
 }: {
   ticker: string;
   range: string;
   setStockData: (stockData: StockChartData[]) => void;
+  stockQuote?: StockQuote;
 }) {
   // Use ticker + range as key to call the fetcher every time the ticker or range changes.
   const { error, data } = useSWR(
     ticker + range,
     (): Promise<StockChartData[]> =>
-      fetch(`/api/charts/${ticker}/${range}`).then((res) => res.json())
+      fetch(`/api/charts/${ticker}/${range}`).then((res) => res.json()),
+    {
+      // Only revalidate if on the 1d range.
+      // Ranges beyond 1d are not updated in real time, so we don't need to revalidate.
+      revalidateOnFocus: range === '1d',
+    }
   );
 
   // Run a side effect that runs the setStockData callback when the data changes.
@@ -104,5 +121,11 @@ function FetchAndRenderChart({
 
   if (error) return <p>Failed to load chart :(</p>;
 
-  return <StockChart key={ticker} stockChartData={data ?? []} />;
+  return (
+    <StockChart
+      key={ticker}
+      stockChartData={data ?? []}
+      stockQuote={stockQuote}
+    />
+  );
 }
