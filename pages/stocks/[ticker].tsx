@@ -3,6 +3,7 @@ import Image from 'next/future/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { HiHome } from 'react-icons/hi';
+import About from '../../components/About';
 import Layout from '../../components/Layout';
 import StockChartWithPrice from '../../components/StockChartWithPrice';
 import TickerForm from '../../components/TickerForm';
@@ -80,13 +81,8 @@ export default function Ticker({
           />
 
           {companyData.description && (
-            <section className='space-y-8'>
-              <div>
-                <h2 className='text-xl sm:text-2xl font-semibold mb-2'>
-                  About
-                </h2>
-                <p>{companyData.description}</p>
-              </div>
+            <section>
+              <About companyData={companyData} />
             </section>
           )}
         </section>

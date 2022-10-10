@@ -25,6 +25,8 @@ export type CompanyData = {
   employees: number;
   sector: string;
   country: string;
+  state: string;
+  city: string;
 };
 
 export type CompanyLogo = {
