@@ -4,7 +4,7 @@ import { getStockPriceChange } from '../lib/helper';
 import { StockChartData, StockQuote } from '../types/iex';
 import StockChart from './StockChart';
 
-const ranges = ['1D', '5D', '1M', '6M', '1Y', '5Y'];
+const ranges = ['1D', '5D', '1M', '6M', 'YTD', '1Y', '5Y'];
 
 type StockChartWithPriceProps = {
   ticker: string;
@@ -102,9 +102,7 @@ function FetchAndRenderChart({
     if (data) setStockData(data);
   }, [data, setStockData]);
 
-  if (error) return <p>Failed to load :(</p>;
+  if (error) return <p>Failed to load chart :(</p>;
 
-  if (!data) return <p>Loading...</p>;
-
-  return <StockChart key={ticker} stockChartData={data} />;
+  return <StockChart key={ticker} stockChartData={data ?? []} />;
 }
