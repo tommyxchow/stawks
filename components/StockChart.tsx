@@ -51,6 +51,33 @@ export default function StockChart({
       legend: {
         display: false,
       },
+      tooltip: {
+        callbacks: {
+          label: (context) => {
+            return `${context.parsed.y.toFixed(2).toString()} USD`;
+          },
+        },
+      },
+    },
+    scales: {
+      y: {
+        grid: {
+          display: false,
+        },
+        ticks: {
+          precision: 0,
+        },
+      },
+      x: {
+        grid: {
+          display: false,
+        },
+        ticks: {
+          autoSkipPadding: 50,
+          maxRotation: 0,
+          align: 'start',
+        },
+      },
     },
   };
 
@@ -58,7 +85,6 @@ export default function StockChart({
     labels,
     datasets: [
       {
-        label: 'Price ($)',
         data: stockChartData.map((data) => data.close),
         fill: true,
         backgroundColor: (context: ScriptableContext<'line'>) => {

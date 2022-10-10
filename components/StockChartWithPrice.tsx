@@ -29,7 +29,7 @@ export default function StockChartWithPrice({
       : stockData[stockData.length - 1].changeOverTime * 100;
 
   return (
-    <div className='flex flex-col bg-black p-4 rounded-2xl mb-4 gap-4 shadow-xl aspect-video'>
+    <div className='flex flex-col bg-black p-4 rounded-2xl mb-4 gap-4 shadow-xl'>
       <div>
         <div className='flex gap-2 items-center'>
           <h2 className='text-2xl font-semibold'>
