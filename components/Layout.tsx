@@ -11,7 +11,7 @@ const Layout = ({ title, description, children }: LayoutProps) => {
         <meta name='viewport' content='width=device-width, initial-scale=1.0' />
       </Head>
 
-      <main className='max-w-screen-md m-auto'>{children}</main>
+      <main className='max-w-screen-md m-auto px-4 md:px-0'>{children}</main>
     </>
   );
 };

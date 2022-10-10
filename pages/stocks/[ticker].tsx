@@ -55,7 +55,7 @@ export default function Ticker({
 
         <section className='flex flex-col gap-4'>
           <div className='flex items-center gap-2'>
-            <div className='h-8 w-8 relative'>
+            <div className='h-6 w-6 sm:h-8 sm:w-8 relative'>
               <Image
                 className='object-contain p-1 rounded-full bg-neutral-100'
                 src={logoURL}
@@ -65,11 +65,12 @@ export default function Ticker({
               />
             </div>
 
-            <h1 className='text-3xl font-bold'>{stockTicker}</h1>
-
-            <p className='text-neutral-400 font-medium text-xl self-end'>
-              {companyData.companyName}
-            </p>
+            <h1 className='text-2xl sm:text-3xl font-bold truncate'>
+              {stockTicker}{' '}
+              <span className='text-neutral-400 font-medium text-lg sm:text-xl self-end'>
+                {companyData.companyName}
+              </span>
+            </h1>
           </div>
 
           <StockChartWithPrice
@@ -81,7 +82,9 @@ export default function Ticker({
           {companyData.description && (
             <section className='space-y-8'>
               <div>
-                <h2 className='text-2xl font-semibold mb-2'>About</h2>
+                <h2 className='text-xl sm:text-2xl font-semibold mb-2'>
+                  About
+                </h2>
                 <p>{companyData.description}</p>
               </div>
             </section>

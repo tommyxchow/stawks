@@ -30,14 +30,14 @@ export default function StockChartWithPrice({
 
   return (
     <div className='flex flex-col bg-black p-4 rounded-2xl mb-4 gap-4 shadow-xl'>
-      <div>
+      <div className='flex flex-col sm:flex-row sm:justify-between sm:items-center'>
         <div className='flex gap-2 items-center'>
-          <h2 className='text-2xl font-semibold'>
+          <h2 className='text-xl sm:text-2xl font-semibold'>
             ${stockQuote.latestPrice.toFixed(2)}{' '}
           </h2>
 
           <p
-            className={`font-medium text-lg bg-opacity-30 rounded-full px-2 ${
+            className={`font-medium sm:text-lg bg-opacity-30 rounded-full px-2 ${
               priceChange > 0
                 ? 'text-green-500 bg-green-700'
                 : 'text-red-500 bg-red-700'
@@ -49,7 +49,7 @@ export default function StockChartWithPrice({
           </p>
         </div>
 
-        <menu className='flex gap-2'>
+        <menu className='flex gap-2 text-sm sm:text-base'>
           {ranges.map((range, index) => (
             <li key={range}>
               <button
