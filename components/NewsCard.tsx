@@ -23,7 +23,7 @@ export default function NewsCard({
 
   return (
     <a href={url} target='_blank' rel='noreferrer'>
-      <article className='p-4 bg-neutral-800 rounded-lg grid items-center sm:grid-cols-4 gap-4 hover:bg-opacity-50 transition active:scale-95'>
+      <article className='p-4 bg-neutral-800 rounded-lg grid sm:grid-cols-4 gap-4 hover:bg-opacity-50 transition active:scale-95'>
         <div className='relative col-span-1 h-40'>
           <Image
             className='object-cover rounded-md'
