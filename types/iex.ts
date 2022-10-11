@@ -34,6 +34,8 @@ export type CompanyLogo = {
 };
 
 export type StockQuote = {
+  symbol: string;
+  companyName: string;
   avgTotalVolume: number;
   primaryExchange: string;
   iexOpen: number;
