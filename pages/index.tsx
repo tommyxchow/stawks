@@ -64,5 +64,6 @@ export const getStaticProps: GetStaticProps = async () => {
       gainers,
       losers,
     },
+    revalidate: 1800,
   };
 };
