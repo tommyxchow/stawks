@@ -10,7 +10,7 @@ type StockListProps = {
 export default function StockList({ title, stocks }: StockListProps) {
   return (
     <article>
-      <h2 className='text-lg font-semibold mb-2'>{title}</h2>
+      <h2 className='text-lg font-semibold text-center mb-2'>{title}</h2>
       <ul className='flex flex-col gap-4'>
         {stocks.slice(0, 5).map((quote) => (
           <li key={quote.symbol}>

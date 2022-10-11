@@ -19,20 +19,20 @@ const Home: NextPage<HomeProps> = ({
 
   return (
     <Layout title='STAWKS' description='STAWKS home.'>
-      <div className='flex flex-col gap-4 justify-center min-h-screen py-8'>
-        <div className='flex flex-col gap-2'>
+      <div className='flex flex-col items-center gap-4 justify-center min-h-screen py-8'>
+        <div className='flex flex-col items-center gap-2'>
           <h1 className='text-4xl font-bold uppercase tracking-wider'>
             Stawks{' '}
           </h1>
 
-          <p className='text-neutral-400'>
+          <p className='text-neutral-400 text-center'>
             View price charts, details, and news about stocks.
           </p>
         </div>
 
         <TickerForm />
 
-        <div className='grid sm:grid-cols-3 gap-4 mt-8'>
+        <div className='grid sm:grid-cols-3 gap-8 sm:gap-4 mt-8 w-full'>
           {[mostActive, gainers, losers].map((stocks, index) => (
             <StockList key={index} title={listTitles[index]} stocks={stocks} />
           ))}
