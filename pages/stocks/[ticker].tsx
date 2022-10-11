@@ -59,19 +59,6 @@ export default function Ticker({
       description={`Stock data for ${stockTicker}.`}
     >
       <div className='min-h-screen py-8 flex flex-col gap-16'>
-        <div className='flex items-center gap-2'>
-          <Link href='/'>
-            <a>
-              <HiHome
-                className='active:scale-90 hover:text-neutral-400 transition'
-                size={28}
-                title='Go home'
-              />
-            </a>
-          </Link>
-          <TickerForm />
-        </div>
-
         <section className='flex flex-col gap-4'>
           <div className='flex items-center gap-2'>
             <div className='h-6 w-6 sm:h-8 sm:w-8 relative shrink-0'>
