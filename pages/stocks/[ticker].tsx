@@ -2,18 +2,19 @@ import { GetStaticPaths, GetStaticProps } from 'next';
 import Image from 'next/future/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
 import { HiHome } from 'react-icons/hi';
 import { SWRConfig } from 'swr';
 import AboutSection from '../../components/AboutSection';
 import Layout from '../../components/Layout';
 import NewsSection from '../../components/NewsSection';
+import StatsSection from '../../components/StatsSection';
 import StockChartWithPrice from '../../components/StockChartWithPrice';
 import TickerForm from '../../components/TickerForm';
 import {
   CompanyData,
   CompanyLogo,
   News,
+  Stats,
   StockChartData,
   StockQuote,
 } from '../../types/iex';
@@ -21,6 +22,8 @@ import {
 type TickerProps = {
   ticker: string;
   logoURL: string;
+  stockQuote: StockQuote;
+  stats: Stats;
   companyData: CompanyData;
   news: News[];
   fallback: [key: string, value: any];
@@ -30,16 +33,21 @@ export default function Ticker({
   ticker,
   logoURL,
   companyData,
+  stockQuote,
+  stats,
   fallback,
   news,
 }: TickerProps) {
   const router = useRouter();
 
-  const tabs = [
+  const sections = [
+    {
+      title: 'Stats',
+      component: <StatsSection stockQuote={stockQuote} stats={stats} />,
+    },
     { title: 'About', component: <AboutSection companyData={companyData} /> },
     { title: 'News', component: <NewsSection news={news} /> },
   ];
-  const [selectedTabIndex, setSelectedTabIndex] = useState(0);
 
   if (router.isFallback) return <div>Loading...</div>;
 
@@ -89,21 +97,17 @@ export default function Ticker({
             <StockChartWithPrice ticker={ticker} />
           </SWRConfig>
 
-          <menu className='flex gap-2'>
-            {tabs.map((tab, index) => (
-              <button
-                key={tab.title}
-                className={`text-xl sm:text-2xl font-semibold mb-2 ${
-                  selectedTabIndex === index && 'underline underline-offset-4'
-                }`}
-                onClick={() => setSelectedTabIndex(index)}
-              >
-                {tab.title}
-              </button>
-            ))}
-          </menu>
+          <div className='space-y-16'>
+            {sections.map((section) => (
+              <section key={section.title}>
+                <h2 className='text-xl sm:text-2xl font-semibold mb-2'>
+                  {section.title}
+                </h2>
 
-          {tabs[selectedTabIndex].component}
+                {section.component}
+              </section>
+            ))}
+          </div>
         </section>
       </div>
     </Layout>
@@ -132,6 +136,10 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       `https://cloud.iexapis.com/stable/stock/${params?.ticker}/quote?displayPercent=true&token=${process.env.IEX_TOKEN}`
     ).then((res) => res.json());
 
+    const stats: Stats = await fetch(
+      `https://cloud.iexapis.com/stable/stock/${params?.ticker}/stats?token=${process.env.IEX_TOKEN}`
+    ).then((res) => res.json());
+
     const news: News[] = await fetch(
       `https://cloud.iexapis.com/stable/stock/${params?.ticker}/news/last/5?token=${process.env.IEX_TOKEN}`
     ).then((res) => res.json());
@@ -140,6 +148,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       props: {
         ticker: params?.ticker,
         logoURL: companyLogo.url,
+        stockQuote,
+        stats,
         companyData,
         news,
         // Define fallback data for useSWR.

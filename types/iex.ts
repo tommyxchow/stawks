@@ -34,9 +34,24 @@ export type CompanyLogo = {
 };
 
 export type StockQuote = {
+  avgTotalVolume: number;
+  primaryExchange: string;
+  iexOpen: number;
+  iexClose: number;
+  high: number;
+  low: number;
   latestPrice: number;
+  extendedPrice: number;
+  extendedChange: number;
+  extendedPriceTime: number;
+  previousClose: number;
+  marketCap: number;
+  peRatio: number;
+  week52High: number;
+  week52Low: number;
   change: number;
   changePercent: number;
+  isUSMarketOpen: boolean;
 };
 
 export type News = {
@@ -49,4 +64,13 @@ export type News = {
   image: string;
   lang: string;
   hasPaywall: boolean;
+};
+
+export type Stats = {
+  ttmEPS: number;
+  ttmDividendRate: number;
+  dividendYield: number;
+  beta: number;
+  nextEarningsDate: string;
+  dividentYield: number;
 };
