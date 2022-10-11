@@ -6,7 +6,11 @@ type AboutProps = {
 };
 
 export default function AboutSection({ companyData }: AboutProps) {
-  if (!companyData.description) return <p>Company data missing :(</p>;
+  if (!companyData.description) {
+    return (
+      <p className='text-neutral-400'>Company information not available</p>
+    );
+  }
 
   const companyStats = [
     {

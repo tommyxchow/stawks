@@ -38,7 +38,7 @@ export default function Ticker({
   fallback,
   news,
 }: TickerProps) {
-  const router = useRouter();
+  const { isFallback } = useRouter();
 
   const sections = [
     {
@@ -49,14 +49,25 @@ export default function Ticker({
     { title: 'News', component: <NewsSection news={news} /> },
   ];
 
-  if (router.isFallback) return <div>Loading...</div>;
+  if (isFallback) {
+    return (
+      <Layout
+        title='Loading... | STAWKS'
+        description={`Loading stock details.`}
+      >
+        <div className='min-h-screen m-auto max-w-screen-md flex justify-center items-center'>
+          <h1 className='text-neutral-400'>Loading...</h1>
+        </div>
+      </Layout>
+    );
+  }
 
   const stockTicker = ticker.toUpperCase();
 
   return (
     <Layout
       title={`${stockTicker} (${companyData.companyName}) | STAWKS`}
-      description={`Stock data for ${stockTicker}.`}
+      description={`Stock details for ${stockTicker}.`}
     >
       <div className='min-h-screen py-8 flex flex-col gap-16'>
         <section className='flex flex-col gap-4'>
