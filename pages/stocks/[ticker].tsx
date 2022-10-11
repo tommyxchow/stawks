@@ -120,29 +120,45 @@ export const getStaticPaths: GetStaticPaths = () => {
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   try {
-    const companyData: CompanyData = await fetch(
+    const companyDataPromise: Promise<CompanyData> = fetch(
       `https://cloud.iexapis.com/stable/stock/${params?.ticker}/company?token=${process.env.IEX_TOKEN}`
     ).then((res) => res.json());
 
-    const companyLogo: CompanyLogo = await fetch(
+    const companyLogoPromise: Promise<CompanyLogo> = fetch(
       `https://cloud.iexapis.com/stable/stock/${params?.ticker}/logo?token=${process.env.IEX_TOKEN}`
     ).then((res) => res.json());
 
-    const stockChartDataDay: StockChartData[] = await fetch(
+    const stockChartDataDayPromise: Promise<StockChartData[]> = fetch(
       `https://cloud.iexapis.com/stable/stock/${params?.ticker}/chart/1d?token=${process.env.IEX_TOKEN}`
     ).then((res) => res.json());
 
-    const stockQuote: StockQuote = await fetch(
+    const stockQuotPromisee: Promise<StockQuote> = fetch(
       `https://cloud.iexapis.com/stable/stock/${params?.ticker}/quote?displayPercent=true&token=${process.env.IEX_TOKEN}`
     ).then((res) => res.json());
 
-    const stats: Stats = await fetch(
+    const statsPromise: Promise<Stats> = fetch(
       `https://cloud.iexapis.com/stable/stock/${params?.ticker}/stats?token=${process.env.IEX_TOKEN}`
     ).then((res) => res.json());
 
-    const news: News[] = await fetch(
+    const newsPromise: Promise<News[]> = fetch(
       `https://cloud.iexapis.com/stable/stock/${params?.ticker}/news/last/5?token=${process.env.IEX_TOKEN}`
     ).then((res) => res.json());
+
+    const [
+      companyData,
+      companyLogo,
+      stockChartDataDay,
+      stockQuote,
+      stats,
+      news,
+    ] = await Promise.all([
+      companyDataPromise,
+      companyLogoPromise,
+      stockChartDataDayPromise,
+      stockQuotPromisee,
+      statsPromise,
+      newsPromise,
+    ]);
 
     return {
       props: {
