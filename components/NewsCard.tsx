@@ -31,7 +31,6 @@ export default function NewsCard({
             alt='Thumbnail'
             sizes='25vw'
             fill
-            priority
           />
         </div>
 
