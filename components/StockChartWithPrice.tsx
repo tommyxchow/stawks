@@ -50,8 +50,8 @@ export default function StockChartWithPrice({
             <p
               className={`font-medium sm:text-lg bg-opacity-30 rounded-full px-2 ${
                 priceChange > 0
-                  ? 'text-green-500 bg-green-700'
-                  : 'text-red-500 bg-red-700'
+                  ? 'text-green-400 bg-green-700'
+                  : 'text-red-400 bg-red-700'
               }`}
             >
               {priceChange > 0 && '+'}

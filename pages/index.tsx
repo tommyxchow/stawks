@@ -32,7 +32,7 @@ const Home: NextPage<HomeProps> = ({
 
         <TickerForm />
 
-        <div className='grid sm:grid-cols-3 gap-8 sm:gap-4 mt-8 w-full'>
+        <div className='grid sm:grid-cols-3 gap-8 mt-8 w-full'>
           {[mostActive, gainers, losers].map((stocks, index) => (
             <StockList key={index} title={listTitles[index]} stocks={stocks} />
           ))}

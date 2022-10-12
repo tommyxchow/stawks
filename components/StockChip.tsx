@@ -13,13 +13,13 @@ export default function StockChip({ quote }: StockChipProps) {
         <article
           className={`flex gap-4 p-2 rounded-lg font-medium bg-opacity-20 justify-between hover:bg-opacity-10 active:scale-95 transition bg ${
             quote.change > 0
-              ? 'text-green-500 bg-green-700'
-              : 'text-red-500 bg-red-700'
+              ? 'text-green-400 bg-green-700'
+              : 'text-red-400 bg-red-700'
           }`}
         >
           <h3>{quote.symbol}</h3>
           {quote.change && (
-            <p>
+            <p className='text-right'>
               {quote.change > 0 && '+'}
               {quote.change.toFixed(2)} (
               {Math.abs(quote.changePercent).toFixed(2)}
