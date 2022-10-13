@@ -69,7 +69,7 @@ export default function Ticker({
       title={`${stockTicker} (${companyData.companyName}) | STAWKS`}
       description={`Stock details for ${stockTicker}.`}
     >
-      <div className='flex min-h-screen flex-col gap-16 py-8'>
+      <div className='min-h-screen space-y-8 py-8'>
         <section className='flex flex-col gap-4'>
           <div className='flex items-center gap-2'>
             <div className='relative h-6 w-6 shrink-0 sm:h-8 sm:w-8'>
@@ -96,15 +96,17 @@ export default function Ticker({
           </SWRConfig>
         </section>
 
-        {sections.map((section) => (
-          <section key={section.title}>
-            <h2 className='mb-2 text-xl font-semibold sm:text-2xl'>
-              {section.title}
-            </h2>
+        <div className='space-y-16'>
+          {sections.map((section) => (
+            <section key={section.title}>
+              <h2 className='mb-2 text-xl font-semibold sm:text-2xl'>
+                {section.title}
+              </h2>
 
-            {section.component}
-          </section>
-        ))}
+              {section.component}
+            </section>
+          ))}
+        </div>
       </div>
     </Layout>
   );
