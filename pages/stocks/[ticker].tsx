@@ -55,7 +55,7 @@ export default function Ticker({
         title='Loading... | STAWKS'
         description={`Loading stock details.`}
       >
-        <div className='min-h-screen m-auto max-w-screen-md flex justify-center items-center'>
+        <div className='m-auto flex min-h-screen max-w-screen-md items-center justify-center'>
           <h1 className='text-neutral-400'>Loading...</h1>
         </div>
       </Layout>
@@ -69,12 +69,12 @@ export default function Ticker({
       title={`${stockTicker} (${companyData.companyName}) | STAWKS`}
       description={`Stock details for ${stockTicker}.`}
     >
-      <div className='min-h-screen py-8 flex flex-col gap-16'>
+      <div className='flex min-h-screen flex-col gap-16 py-8'>
         <section className='flex flex-col gap-4'>
           <div className='flex items-center gap-2'>
-            <div className='h-6 w-6 sm:h-8 sm:w-8 relative shrink-0'>
+            <div className='relative h-6 w-6 shrink-0 sm:h-8 sm:w-8'>
               <Image
-                className='object-contain p-1 rounded-full bg-neutral-100'
+                className='rounded-full bg-neutral-100 object-contain p-1'
                 src={logoURL}
                 alt='Logo'
                 sizes='32px'
@@ -83,9 +83,9 @@ export default function Ticker({
               />
             </div>
 
-            <h1 className='text-2xl sm:text-3xl font-bold truncate'>
+            <h1 className='truncate text-2xl font-bold sm:text-3xl'>
               {stockTicker}{' '}
-              <span className='text-neutral-400 font-medium text-lg sm:text-xl self-end'>
+              <span className='self-end text-lg font-medium text-neutral-600 dark:text-neutral-400 sm:text-xl'>
                 {companyData.companyName}
               </span>
             </h1>
@@ -98,7 +98,7 @@ export default function Ticker({
           <div className='space-y-16'>
             {sections.map((section) => (
               <section key={section.title}>
-                <h2 className='text-xl sm:text-2xl font-semibold mb-2'>
+                <h2 className='mb-2 text-xl font-semibold sm:text-2xl'>
                   {section.title}
                 </h2>
 

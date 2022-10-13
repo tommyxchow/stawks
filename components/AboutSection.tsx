@@ -33,16 +33,18 @@ export default function AboutSection({ companyData }: AboutProps) {
 
   return (
     <div className='space-y-8'>
-      <p className='text-neutral-300'>{companyData.description}</p>
+      <p className='text-neutral-700 dark:text-neutral-300'>
+        {companyData.description}
+      </p>
 
-      <div className='grid grid-cols-2 sm:grid-cols-4 gap-y-8'>
+      <div className='grid grid-cols-2 gap-y-8 sm:grid-cols-4'>
         {companyStats.map(
           (statItem) =>
             statItem.stat && (
               <div key={statItem.stat} className='space-y-2'>
                 <h3 className='font-semibold'>{statItem.title}</h3>
 
-                <p className='text-neutral-300'>
+                <p className='text-neutral-700 dark:text-neutral-300'>
                   {statItem.stat.toLocaleString()}
                 </p>
               </div>

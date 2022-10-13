@@ -31,8 +31,8 @@ export default function StatsSection({ stockQuote, stats }: StatsProps) {
         <tbody>
           {tableData1.map((data) => (
             <tr className='border-y border-neutral-700' key={data.title}>
-              <th className='text-left font-semibold py-2'>{data.title}</th>
-              <td className='text-neutral-300'>
+              <th className='py-2 text-left font-semibold'>{data.title}</th>
+              <td className='text-neutral-700 dark:text-neutral-300'>
                 {data.value?.toFixed(2).toLocaleString() ?? 'N/A'}
               </td>
             </tr>
@@ -44,8 +44,8 @@ export default function StatsSection({ stockQuote, stats }: StatsProps) {
         <tbody>
           {tableData2.map((data) => (
             <tr className='border-y border-neutral-700' key={data.title}>
-              <th className='text-left font-semibold py-2'>{data.title}</th>
-              <td className='text-neutral-300'>
+              <th className='py-2 text-left font-semibold'>{data.title}</th>
+              <td className='text-neutral-700 dark:text-neutral-300'>
                 {data.value?.toLocaleString() ?? 'N/A'}
               </td>
             </tr>

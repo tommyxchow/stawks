@@ -39,19 +39,19 @@ export default function StockChartWithPrice({
       : stockData && stockData[stockData.length - 1].changeOverTime * 100;
 
   return (
-    <div className='flex flex-col bg-black p-4 rounded-2xl mb-4 gap-4 shadow-xl'>
-      <div className='flex flex-col sm:flex-row sm:justify-between sm:items-center'>
-        <div className='flex gap-2 items-center'>
-          <h2 className='text-xl sm:text-2xl font-semibold'>
+    <div className='mb-4 flex flex-col gap-4 rounded-2xl p-4 shadow-lg dark:bg-black'>
+      <div className='flex flex-col sm:flex-row sm:items-center sm:justify-between'>
+        <div className='flex items-center gap-2'>
+          <h2 className='text-xl font-semibold dark:text-neutral-100 sm:text-2xl'>
             ${stockQuoteData?.latestPrice.toFixed(2)}
           </h2>
 
           {priceChange && (
             <p
-              className={`font-medium sm:text-lg bg-opacity-30 rounded-full px-2 ${
+              className={`rounded-full bg-opacity-30 px-2 font-medium dark:bg-opacity-20 sm:text-lg ${
                 priceChange > 0
-                  ? 'text-green-400 bg-green-700'
-                  : 'text-red-400 bg-red-700'
+                  ? 'bg-green-400 text-green-800 dark:bg-green-700 dark:text-green-400'
+                  : 'bg-red-400 text-red-800 dark:bg-red-700 dark:text-red-400'
               }`}
             >
               {priceChange > 0 && '+'}
@@ -66,9 +66,9 @@ export default function StockChartWithPrice({
           {ranges.map((range) => (
             <li key={range}>
               <button
-                className={`transition font-medium ${
+                className={`font-medium transition ${
                   chartRange !== range &&
-                  'text-neutral-400 hover:text-neutral-100'
+                  'text-neutral-600 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100'
                 }`}
                 onClick={() => setChartRange(range)}
               >

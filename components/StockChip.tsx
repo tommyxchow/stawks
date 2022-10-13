@@ -11,10 +11,10 @@ export default function StockChip({ quote }: StockChipProps) {
     <Link href={`/stocks/${quote.symbol}`}>
       <a>
         <article
-          className={`flex gap-4 p-2 rounded-lg font-medium bg-opacity-20 justify-between hover:bg-opacity-10 active:scale-95 transition bg ${
+          className={`flex justify-between gap-4 rounded-lg bg-opacity-30 p-2 font-semibold transition hover:bg-opacity-20 active:scale-95 dark:bg-opacity-20 dark:hover:bg-opacity-10 ${
             quote.change > 0
-              ? 'text-green-400 bg-green-700'
-              : 'text-red-400 bg-red-700'
+              ? 'bg-green-400 text-green-800 dark:bg-green-700 dark:text-green-400'
+              : 'bg-red-400 text-red-800 dark:bg-red-700 dark:text-red-400'
           }`}
         >
           <h3>{quote.symbol}</h3>

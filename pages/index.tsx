@@ -25,7 +25,7 @@ const Home: NextPage<HomeProps> = ({
             Stawks{' '}
           </h1>
 
-          <p className='text-neutral-400 text-center'>
+          <p className='dark:text-neutral-400 text-neutral-600 text-center'>
             View price charts, details, and news about stocks.
           </p>
         </div>
