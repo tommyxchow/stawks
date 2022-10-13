@@ -53,6 +53,17 @@ export default function Footer() {
             IEX Cloud API
           </a>
         </p>
+        <p>
+          View{' '}
+          <a
+            className='underline'
+            href='https://github.com/tommyxchow/stawks'
+            target='_blank'
+            rel='noreferrer'
+          >
+            source on GitHub
+          </a>
+        </p>
       </div>
     </footer>
   );
