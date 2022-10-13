@@ -27,7 +27,9 @@ export default function AboutSection({ companyData }: AboutProps) {
     },
     {
       title: 'Location',
-      stat: `${companyData.city}, ${companyData.state} ${companyData.country}`,
+      stat:
+        companyData.country &&
+        `${companyData.city}, ${companyData.state} ${companyData.country}`,
     },
   ];
 
