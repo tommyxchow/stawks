@@ -23,6 +23,9 @@ ChartJS.register({
   Filler,
 });
 
+ChartJS.defaults.font.family = 'Inter';
+ChartJS.defaults.font.weight = '600';
+
 type StockChartProps = {
   stockChartData: StockChartData[];
   stockQuote?: StockQuote;

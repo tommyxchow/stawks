@@ -10,7 +10,7 @@ export default function Header() {
         <Link href='/'>
           <a>
             <HiHome
-              className='transition hover:text-neutral-400 active:scale-90'
+              className='transition hover:text-neutral-600 active:scale-90 dark:hover:text-neutral-400'
               size={28}
               title='Go home'
             />

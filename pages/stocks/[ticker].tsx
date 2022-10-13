@@ -56,7 +56,7 @@ export default function Ticker({
         description={`Loading stock details.`}
       >
         <div className='m-auto flex min-h-screen max-w-screen-md items-center justify-center'>
-          <h1 className='text-neutral-400'>Loading...</h1>
+          <h1 className='text-neutral-600 dark:text-neutral-400'>Loading...</h1>
         </div>
       </Layout>
     );
@@ -94,19 +94,17 @@ export default function Ticker({
           <SWRConfig value={{ fallback }}>
             <StockChartWithPrice ticker={ticker} />
           </SWRConfig>
-
-          <div className='space-y-16'>
-            {sections.map((section) => (
-              <section key={section.title}>
-                <h2 className='mb-2 text-xl font-semibold sm:text-2xl'>
-                  {section.title}
-                </h2>
-
-                {section.component}
-              </section>
-            ))}
-          </div>
         </section>
+
+        {sections.map((section) => (
+          <section key={section.title}>
+            <h2 className='mb-2 text-xl font-semibold sm:text-2xl'>
+              {section.title}
+            </h2>
+
+            {section.component}
+          </section>
+        ))}
       </div>
     </Layout>
   );
