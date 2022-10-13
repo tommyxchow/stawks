@@ -20,20 +20,20 @@ export default function Footer() {
             className={resolvedTheme === 'light' ? 'underline' : undefined}
             onClick={() => setTheme('light')}
           >
-            light
+            Light
           </button>{' '}
           <button
             className={resolvedTheme === 'dark' ? 'underline' : undefined}
             onClick={() => setTheme('dark')}
           >
-            dark
+            Dark
           </button>
         </p>
 
         <p>
           Designed and developed by{' '}
           <a
-            className='underline underline-offset-2'
+            className='underline'
             href='https://www.tommychow.com/'
             target='_blank'
             rel='noreferrer'
@@ -45,7 +45,7 @@ export default function Footer() {
         <p>
           Data sourced from the{' '}
           <a
-            className='underline underline-offset-2'
+            className='underline'
             href='https://iexcloud.io/docs/api/'
             target='_blank'
             rel='noreferrer'
