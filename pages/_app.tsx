@@ -9,7 +9,7 @@ import '../styles/globals.css';
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ThemeProvider attribute='class' disableTransitionOnChange>
-      <Component {...pageProps} />;
+      <Component {...pageProps} />
     </ThemeProvider>
   );
 }
