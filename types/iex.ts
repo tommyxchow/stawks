@@ -74,5 +74,4 @@ export type Stats = {
   dividendYield: number;
   beta: number;
   nextEarningsDate: string;
-  dividentYield: number;
 };
