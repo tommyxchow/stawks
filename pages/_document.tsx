@@ -4,6 +4,13 @@ export default function Document() {
   return (
     <Html lang='en'>
       <Head>
+        <link
+          rel='icon'
+          type='image/svg+xml'
+          href='/assets/images/favicon.svg'
+        />
+        <link rel='icon' type='image/png' href='/assets/images/favicon.png' />
+
         <meta property='og:url' content='https://stawks.vercel.app/' />
         <meta property='og:type' content='website' />
         <meta property='og:title' content='STAWKS' />
