@@ -18,21 +18,24 @@ const Home: NextPage<HomeProps> = ({
   const listTitles = ['Most Active', 'Gainers', 'Losers'];
 
   return (
-    <Layout title='STAWKS' description='STAWKS home.'>
-      <div className='flex flex-col items-center gap-4 justify-center min-h-screen py-8'>
+    <Layout
+      title='STAWKS'
+      description='View price charts, details, and news about stocks.'
+    >
+      <div className='flex min-h-screen flex-col items-center justify-center gap-4 py-8'>
         <div className='flex flex-col items-center gap-2'>
           <h1 className='text-4xl font-bold uppercase tracking-wider'>
             Stawks{' '}
           </h1>
 
-          <p className='dark:text-neutral-400 text-neutral-600 text-center'>
+          <p className='text-center text-neutral-600 dark:text-neutral-400'>
             View price charts, details, and news about stocks.
           </p>
         </div>
 
         <TickerForm />
 
-        <div className='grid sm:grid-cols-3 gap-8 mt-8 w-full'>
+        <div className='mt-8 grid w-full gap-8 sm:grid-cols-3'>
           {[mostActive, gainers, losers].map((stocks, index) => (
             <StockList key={index} title={listTitles[index]} stocks={stocks} />
           ))}
