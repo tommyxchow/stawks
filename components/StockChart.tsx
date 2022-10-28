@@ -55,9 +55,20 @@ export default function StockChart({
         display: false,
       },
       tooltip: {
+        bodyFont: {
+          weight: '400',
+        },
+        displayColors: false,
+        padding: 8,
+        bodySpacing: 4,
         callbacks: {
           label: (context) => {
-            return `${context.parsed.y.toFixed(2).toString()} USD`;
+            return `Price: $${context.parsed.y.toFixed(2).toString()}`;
+          },
+          afterBody(tooltipItems) {
+            const index = tooltipItems[0].dataIndex;
+            const volume = stockChartData[index].volume.toLocaleString();
+            return `Volume: ${volume}`;
           },
         },
       },
