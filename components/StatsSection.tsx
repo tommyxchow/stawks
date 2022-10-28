@@ -20,7 +20,7 @@ export default function StatsSection({ stockQuote, stats }: StatsProps) {
     { title: 'Dividend Yield', value: stats.dividendYield * 100 },
     { title: 'Beta', value: stats.beta },
     { title: 'P/E Ratio', value: stockQuote.peRatio },
-    { title: 'Average Volume', value: stockQuote.avgTotalVolume },
+    { title: '30-Day Average Volume', value: stockQuote.avgTotalVolume },
     { title: 'Market Cap', value: stockQuote.marketCap },
     { title: 'Next Earnings Date', value: stats.nextEarningsDate },
   ];

@@ -47,9 +47,9 @@ const Home: NextPage<HomeProps> = ({
 
 export default Home;
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getStaticProps: GetStaticProps<HomeProps> = async () => {
   const listTypes = ['mostactive', 'gainers', 'losers'];
-  const [mostActive, gainers, losers] = await Promise.all<StockQuote>(
+  const [mostActive, gainers, losers] = await Promise.all<StockQuote[]>(
     listTypes.map((type) =>
       fetch(
         `https://cloud.iexapis.com/stable/stock/market/list/${type}?listLimit=6&displayPercent=true&token=${process.env.IEX_TOKEN}`
