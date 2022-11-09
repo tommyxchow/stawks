@@ -13,10 +13,12 @@ export default function TickerForm() {
   };
 
   return (
-    <form className='flex items-center gap-2 w-full' onSubmit={handleSubmit}>
+    <form className='flex w-full items-center gap-2' onSubmit={handleSubmit}>
       <Input id='ticker' placeholder='Enter a stock ticker' />
 
-      <Button>Go</Button>
+      <div className='hidden sm:block'>
+        <Button>Go</Button>
+      </div>
     </form>
   );
 }
