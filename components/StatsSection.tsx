@@ -27,7 +27,7 @@ export default function StatsSection({ stockQuote, stats }: StatsProps) {
 
   return (
     <article className='grid text-right sm:grid-cols-2 sm:text-left'>
-      <table className='w-full table-fixed sm:table-auto'>
+      <table className='table-fixed sm:table-auto'>
         <tbody>
           {tableData1.map((data) => (
             <tr className='border-y border-neutral-700' key={data.title}>
@@ -40,7 +40,7 @@ export default function StatsSection({ stockQuote, stats }: StatsProps) {
         </tbody>
       </table>
 
-      <table className='w-full table-fixed sm:table-auto'>
+      <table className='table-fixed sm:table-auto'>
         <tbody>
           {tableData2.map((data) => (
             <tr className='border-y border-neutral-700' key={data.title}>

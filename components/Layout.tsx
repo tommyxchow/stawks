@@ -18,7 +18,7 @@ const Layout = ({ title, description, children }: LayoutProps) => {
 
       {pathname !== '/' && <Header />}
 
-      <main className='max-w-screen-md m-auto px-4 md:px-0'>{children}</main>
+      <main className='m-auto max-w-screen-md px-4 md:px-0'>{children}</main>
 
       <Footer />
     </>
