@@ -1,11 +1,11 @@
 import {
   CategoryScale,
-  Chart as ChartJS,
   ChartData,
+  Chart as ChartJS,
   ChartOptions,
   Filler,
-  LinearScale,
   LineElement,
+  LinearScale,
   PointElement,
   ScriptableContext,
   Tooltip,

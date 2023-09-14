@@ -1,4 +1,3 @@
-import React from 'react';
 import { StockQuote } from '../types/iex';
 import StockChip from './StockChip';
 

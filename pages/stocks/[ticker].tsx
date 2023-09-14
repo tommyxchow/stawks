@@ -1,15 +1,12 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
 import Image from 'next/future/image';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { HiHome } from 'react-icons/hi';
 import { SWRConfig } from 'swr';
 import AboutSection from '../../components/AboutSection';
 import Layout from '../../components/Layout';
 import NewsSection from '../../components/NewsSection';
 import StatsSection from '../../components/StatsSection';
 import StockChartWithPrice from '../../components/StockChartWithPrice';
-import TickerForm from '../../components/TickerForm';
 import {
   CompanyData,
   CompanyLogo,

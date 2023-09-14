@@ -1,4 +1,3 @@
-import React from 'react';
 import { Stats, StockQuote } from '../types/iex';
 
 type StatsProps = {

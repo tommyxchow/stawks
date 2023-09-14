@@ -1,4 +1,3 @@
-import React from 'react';
 import { CompanyData } from '../types/iex';
 
 type AboutProps = {

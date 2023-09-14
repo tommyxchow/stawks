@@ -1,5 +1,4 @@
 import Image from 'next/future/image';
-import React from 'react';
 import { News } from '../types/iex';
 
 export default function NewsCard({
