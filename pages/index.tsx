@@ -25,7 +25,7 @@ const Home: NextPage<HomeProps> = ({
       <div className='flex min-h-screen flex-col items-center justify-center gap-4 py-8'>
         <div className='flex flex-col items-center gap-2'>
           <h1 className='text-4xl font-bold uppercase tracking-wider'>
-            Stawks{' '}
+            Stawks
           </h1>
 
           <p className='text-center text-neutral-600 dark:text-neutral-400'>
