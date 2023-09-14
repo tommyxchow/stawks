@@ -9,7 +9,7 @@
   "dependencies": {
     "@fontsource/inter": "^4.5.13",
     "chart.js": "^3.9.1",
-    "next": "latest",
+    "next": "^12.3.0",
     "next-themes": "^0.2.1",
     "react": "18.1.0",
     "react-chartjs-2": "^4.3.1",
