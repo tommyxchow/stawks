@@ -15,7 +15,7 @@ const Home: NextPage<HomeProps> = ({
   gainers,
   losers,
 }: HomeProps) => {
-  const listTitles = ['Most Active', 'Gainers', 'Losers'];
+  const listTitles = ['Most Active', 'Top Gainers', 'Top Losers'];
 
   return (
     <Layout
