@@ -1,6 +1,7 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+
 import { SWRConfig } from 'swr';
 import AboutSection from '../../components/AboutSection';
 import Layout from '../../components/Layout';
@@ -16,7 +17,7 @@ import {
   StockQuote,
 } from '../../types/iex';
 
-type TickerProps = {
+export type TickerProps = {
   ticker: string;
   logoURL: string;
   stockQuote: StockQuote;
@@ -24,6 +25,7 @@ type TickerProps = {
   companyData: CompanyData;
   news: News[];
   fallback: [key: string, value: any];
+  isError: boolean;
 };
 
 export default function Ticker({
@@ -34,6 +36,7 @@ export default function Ticker({
   stats,
   fallback,
   news,
+  isError = false,
 }: TickerProps) {
   const { isFallback } = useRouter();
 
@@ -65,6 +68,7 @@ export default function Ticker({
     <Layout
       title={`${stockTicker} (${companyData.companyName}) | STAWKS`}
       description={`Stock details for ${stockTicker}.`}
+      showHeader={!isError}
     >
       <div className='min-h-screen space-y-8 py-8'>
         <section className='flex flex-col gap-4'>
@@ -89,7 +93,11 @@ export default function Ticker({
           </div>
 
           <SWRConfig value={{ fallback }}>
-            <StockChartWithPrice ticker={ticker} />
+            <StockChartWithPrice
+              ticker={ticker}
+              isError={isError}
+              fallback={fallback}
+            />
           </SWRConfig>
         </section>
 
@@ -174,7 +182,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       revalidate: 60,
     };
   } catch {
-    // If there's an error (e.g., the ticker doesn't exist), return the 404 page.
     return {
       notFound: true,
     };

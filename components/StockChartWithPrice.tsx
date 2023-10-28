@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-import useSWR from 'swr';
+import { useState } from 'react';
 import { getStockPriceChange } from '../lib/helper';
 import { StockChartData, StockQuote } from '../types/iex';
 import StockChart from './StockChart';
@@ -8,28 +7,30 @@ const ranges = ['1d', '5d', '1m', '6m', 'ytd', '1y', '5y'];
 
 type StockChartWithPriceProps = {
   ticker: string;
+  isError: boolean;
+  fallback: Record<string, any>;
 };
 
 export default function StockChartWithPrice({
   ticker,
+  isError,
+  fallback,
 }: StockChartWithPriceProps) {
-  const { data: stockQuoteData } = useSWR(
-    `/api/quote/${ticker}`,
-    (): Promise<StockQuote> =>
-      fetch(`/api/quote/${ticker}`).then((res) => res.json())
-  );
+  const stockQuoteData = fallback['/api/quote/aapl'] as StockQuote;
 
-  const { data: initialStockChartData } = useSWR(
-    `/api/charts/${ticker}/1d`,
-    (): Promise<StockChartData[]> =>
-      fetch(`/api/charts/${ticker}/1d`).then((res) => res.json())
-  );
+  const allStockData = ranges.map((range) => {
+    const stockData = fallback[`/api/charts/aapl/${range}`] as StockChartData[];
+    return stockData;
+  });
 
-  const [chartRange, setChartRange] = useState(ranges[0]);
-  const [stockData, setStockData] = useState(initialStockChartData);
+  console.log(allStockData);
+
+  const [chartRangeIndex, setChartRangeIndex] = useState(0);
+  const chartRange = ranges[chartRangeIndex];
+  const stockData = allStockData[chartRangeIndex];
 
   const priceChange =
-    chartRange === '1d'
+    chartRange[chartRangeIndex] === '1d'
       ? stockQuoteData && stockQuoteData.change
       : stockData && getStockPriceChange(stockData);
 
@@ -63,14 +64,14 @@ export default function StockChartWithPrice({
         </div>
 
         <menu className='flex gap-2 text-sm sm:text-base'>
-          {ranges.map((range) => (
+          {ranges.map((range, index) => (
             <li key={range}>
               <button
                 className={`font-medium transition ${
                   chartRange !== range &&
                   'text-neutral-600 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-100'
                 }`}
-                onClick={() => setChartRange(range)}
+                onClick={() => setChartRangeIndex(index)}
               >
                 {range.toUpperCase()}
               </button>
@@ -82,8 +83,8 @@ export default function StockChartWithPrice({
       <FetchAndRenderChart
         ticker={ticker}
         range={chartRange}
-        setStockData={setStockData}
         stockQuote={chartRange === '1d' ? stockQuoteData : undefined}
+        fallbackData={stockData}
       />
     </div>
   );
@@ -92,39 +93,39 @@ export default function StockChartWithPrice({
 function FetchAndRenderChart({
   ticker,
   range,
-  setStockData,
   stockQuote,
+  fallbackData,
 }: {
   ticker: string;
   range: string;
-  setStockData: (stockData: StockChartData[]) => void;
   stockQuote?: StockQuote;
+  fallbackData?: StockChartData[];
 }) {
-  // Use ticker + range as key to call the fetcher every time the ticker or range changes.
-  const { error, data } = useSWR(
-    ticker + range,
-    (): Promise<StockChartData[]> =>
-      fetch(`/api/charts/${ticker}/${range}`).then((res) => res.json()),
-    {
-      // Only revalidate if on the 1d range.
-      // Ranges beyond 1d are not updated in real time, so we don't need to revalidate.
-      revalidateOnFocus: range === '1d',
-    }
-  );
+  // // Use ticker + range as key to call the fetcher every time the ticker or range changes.
+  // const { error, data } = useSWR(
+  //   ticker + range,
+  //   (): Promise<StockChartData[]> =>
+  //     fetch(`/api/charts/${ticker}/${range}`).then((res) => res.json()),
+  //   {
+  //     // Only revalidate if on the 1d range.
+  //     // Ranges beyond 1d are not updated in real time, so we don't need to revalidate.
+  //     revalidateOnFocus: range === '1d',
+  //   }
+  // );
 
-  // Run a side effect that runs the setStockData callback when the data changes.
-  // This is used to set the price and percent change in the parent component.
-  useEffect(() => {
-    // Data is potentially undefined at this point, so we need to check for it.
-    if (data) setStockData(data);
-  }, [data, setStockData]);
+  // // Run a side effect that runs the setStockData callback when the data changes.
+  // // This is used to set the price and percent change in the parent component.
+  // useEffect(() => {
+  //   // Data is potentially undefined at this point, so we need to check for it.
+  //   if (data) setStockData(data);
+  // }, [data, setStockData]);
 
-  if (error) return <p>Failed to load chart :(</p>;
+  // if (error) return <p>Failed to load chart :(</p>;
 
   return (
     <StockChart
       key={ticker}
-      stockChartData={data ?? []}
+      stockChartData={fallbackData ?? []}
       stockQuote={stockQuote}
     />
   );

@@ -4,7 +4,12 @@ import React from 'react';
 import Footer from './Footer';
 import Header from './Header';
 
-const Layout = ({ title, description, children }: LayoutProps) => {
+const Layout = ({
+  title,
+  description,
+  children,
+  showHeader = true,
+}: LayoutProps) => {
   const { pathname } = useRouter();
 
   return (
@@ -16,11 +21,11 @@ const Layout = ({ title, description, children }: LayoutProps) => {
         <meta name='viewport' content='width=device-width, initial-scale=1.0' />
       </Head>
 
-      {pathname !== '/' && <Header />}
+      {pathname !== '/' && showHeader && <Header />}
 
       <main className='m-auto max-w-screen-md px-4 md:px-0'>{children}</main>
 
-      <Footer />
+      {showHeader && <Footer />}
     </>
   );
 };
@@ -29,6 +34,7 @@ interface LayoutProps {
   title: string;
   description: string;
   children: React.ReactNode;
+  showHeader?: boolean;
 }
 
 export default Layout;
