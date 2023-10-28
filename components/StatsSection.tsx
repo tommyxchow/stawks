@@ -25,7 +25,7 @@ export default function StatsSection({ stockQuote, stats }: StatsProps) {
   ];
 
   return (
-    <article className='grid text-right sm:grid-cols-2 sm:text-left'>
+    <article className='grid text-right sm:grid-cols-2 tabular-nums sm:gap-4'>
       <table className='table-fixed sm:table-auto'>
         <tbody>
           {tableData1.map((data) => (
