@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { HiHome } from 'react-icons/hi';
+import { HiHome } from 'react-icons/hi2';
 import TickerForm from './TickerForm';
 
 export default function Header() {
