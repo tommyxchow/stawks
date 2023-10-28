@@ -1,6 +1,7 @@
 import fs from 'fs';
 import { GetStaticProps } from 'next';
 import path from 'path';
+import { HiOutlineExclamationCircle } from 'react-icons/hi2';
 import Layout from '../components/Layout';
 import Ticker, { TickerProps } from './stocks/[ticker]';
 
@@ -13,12 +14,14 @@ export default function Custom404(tickerProps: TickerProps) {
         </h1>
       </div> */}
 
-      <p>
-        If you&apos;re seeing this, I reached the free tier limits for the IEX
-        Cloud API. I don&apos;t want to pay the fees for this side project, so
-        here&apos;s a demo of the interface with fallback data that you can
-        interact with.
-      </p>
+      <div className='p-4 dark:bg-red-950 bg-opacity-50 dark:bg-opacity-50 rounded-lg flex items-center gap-4 border bg-red-300 border-red-400 border-opacity-50 dark:border-red-900 dark:border-opacity-50'>
+        <HiOutlineExclamationCircle size={24} className='shrink-0' />
+        <p>
+          If you see this, I reached the free tier API limits. The paid tier
+          isn&apos;t worth it for this side project, so here&apos;s a demo with
+          older data.
+        </p>
+      </div>
 
       <Ticker {...tickerProps} />
     </Layout>

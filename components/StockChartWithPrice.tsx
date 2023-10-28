@@ -23,8 +23,6 @@ export default function StockChartWithPrice({
     return stockData;
   });
 
-  console.log(allStockData);
-
   const [chartRangeIndex, setChartRangeIndex] = useState(0);
   const chartRange = ranges[chartRangeIndex];
   const stockData = allStockData[chartRangeIndex];
